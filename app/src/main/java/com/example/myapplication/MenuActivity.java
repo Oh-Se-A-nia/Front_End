@@ -1,7 +1,11 @@
 package com.example.myapplication;
 
+import android.animation.Animator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +19,7 @@ import com.example.myapplication.fragment.ChartFragment;
 import com.example.myapplication.fragment.CommunityFragment;
 import com.example.myapplication.fragment.MapFragment;
 import com.example.myapplication.fragment.ProfileFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MenuActivity extends AppCompatActivity {
@@ -47,6 +52,18 @@ public class MenuActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        clickCameraButton();
+    }
+
+    private void clickCameraButton(){
+        binding.camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MenuActivity.this, CircleMenuActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void replaceFragment(Fragment fragment){
@@ -55,4 +72,5 @@ public class MenuActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
     }
+
 }

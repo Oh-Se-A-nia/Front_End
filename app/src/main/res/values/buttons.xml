@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="icons">
+        <item>@drawable/baseline_photo_camera_24</item>
+        <item>@drawable/baseline_insert_chart_outlined_24</item>
+        <item>@drawable/baseline_add_photo_alternate_24</item>
+    </array>
+
+    <array name="colors">
+        <item>@color/darkBrown</item>
+        <item>@color/whiteBrown</item>
+        <item>@color/littleBlue</item>
+    </array>
+</resources>
