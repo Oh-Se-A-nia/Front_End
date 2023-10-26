@@ -1,4 +1,4 @@
-package com.example.myapplication.fragment;
+package com.example.myapplication.view.fragment;
 
 import android.os.Bundle;
 
@@ -11,12 +11,13 @@ import android.view.ViewGroup;
 import com.example.myapplication.R;
 
 
-public class CommunityFragment extends Fragment {
+public class MapFragment extends Fragment {
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_community, container, false);
+        return inflater.inflate(R.layout.fragment_map, container, false);
     }
 }

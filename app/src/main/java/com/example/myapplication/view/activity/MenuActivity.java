@@ -1,11 +1,9 @@
-package com.example.myapplication;
+package com.example.myapplication.view.activity;
 
-import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,13 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.myapplication.databinding.ActivityMainBinding;
+import com.example.myapplication.R;
 import com.example.myapplication.databinding.ActivityMenuBinding;
-import com.example.myapplication.fragment.ChartFragment;
-import com.example.myapplication.fragment.CommunityFragment;
-import com.example.myapplication.fragment.MapFragment;
-import com.example.myapplication.fragment.ProfileFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.myapplication.view.fragment.ChartFragment;
+import com.example.myapplication.view.fragment.CommunityFragment;
+import com.example.myapplication.view.fragment.MapFragment;
+import com.example.myapplication.view.fragment.ProfileFragment;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MenuActivity extends AppCompatActivity {
