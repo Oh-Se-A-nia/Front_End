@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.databinding.ActivityCircleMenuBinding;
+import com.example.myapplication.view.Constants;
 import com.ramotion.circlemenu.CircleMenuView;
 
 
@@ -33,21 +34,30 @@ public class CircleMenuActivity extends AppCompatActivity {
                 switch(buttonIndex){
                     case 0:
                         Toast.makeText(CircleMenuActivity.this, "Camera Button Clicked", Toast.LENGTH_SHORT).show();
+                        intentEcoTagActivity(buttonIndex);
                         break;
                     case 1:
                         Toast.makeText(CircleMenuActivity.this, "Chart Button Clicked", Toast.LENGTH_SHORT).show();
                         break;
                     case 2:
                         Toast.makeText(CircleMenuActivity.this, "원하는 사진을 선택해주세요", Toast.LENGTH_SHORT).show();
-                        intentEcoTagActivity();
+                        intentEcoTagActivity(buttonIndex);
                         break;
                 }
             }
         });
     }
 
-    private void intentEcoTagActivity(){
+    //등록 액티비티로 넘어가는 코드
+    private void intentEcoTagActivity(int buttonIndex){
         Intent intent = new Intent(CircleMenuActivity.this, EcoTagActivity.class);
+
+        if(buttonIndex == 0){
+            intent.putExtra("타입", Constants.REGISTER_WITH_CAMERA);
+        } else if(buttonIndex == 2){
+            intent.putExtra("타입", Constants.REGISTER_WITH_ALBUM);
+        }
+
         startActivity(intent);
         finish();
     }
