@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -35,6 +36,16 @@ public class EcoTagActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         checkRegisterType();
+        getOtherImage();
+    }
+
+    private void getOtherImage(){
+        binding.imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerImageWithAlbum();
+            }
+        });
     }
 
     //카메라, 앨범 경로를 구분해주는 함수
