@@ -8,4 +8,9 @@
     <color name="whiteBrown">#C7A78A</color>
     <color name="littleBlue">#A4B7D9</color>
     <color name="transparent">#00000000</color>
+    <color name="chartColor1">#1B4079</color>
+    <color name="chartColor2">#4D7C8A</color>
+    <color name="chartColor3">#7F9C96</color>
+    <color name="chartColor4">#8FAD88</color>
+    <color name="chartColor5">#CBDF90</color>
 </resources>
