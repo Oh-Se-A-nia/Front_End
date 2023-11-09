@@ -1,10 +1,15 @@
 package com.example.myapplication.view.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,7 +24,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.myapplication.databinding.ActivityCircleMenuBinding;
 import com.example.myapplication.databinding.ActivityEcoTagBinding;
 import com.example.myapplication.view.Constants;
@@ -42,6 +46,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class EcoTagActivity extends AppCompatActivity {
 
@@ -55,6 +62,8 @@ public class EcoTagActivity extends AppCompatActivity {
 
     private double latitude;
     private double longitude;
+    private List<Address> addressList = null;
+    private String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,70 +137,48 @@ public class EcoTagActivity extends AppCompatActivity {
                         Bundle extras = result.getData().getExtras();
                         Bitmap bitmap = (Bitmap) extras.get("data");
                         binding.imageView.setImageBitmap(bitmap);
+                        getCurrentLocation();
                     }
                 }
             }
     );
 
-    private void checkLocationSetting(){
+    private void getCurrentLocation(){
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        locationRequest = new LocationRequest.Builder(DEFAULT_LOCATION_REQUEST_INTERVAL)
-                .setGranularity(Granularity.GRANULARITY_FINE)
-                .setPriority(DEFAULT_LOCATION_REQUEST_PRIORITY)
-                .build();
+        try{
+            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-        SettingsClient settingsClient = LocationServices.getSettingsClient(EcoTagActivity.this);
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(locationRequest).setAlwaysShow(true);
-        settingsClient.checkLocationSettings(builder.build())
-                .addOnSuccessListener(EcoTagActivity.this, new OnSuccessListener<LocationSettingsResponse>() {
-                    @Override
-                    public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-                        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(EcoTagActivity.this);
-                        //noinspection MissingPermission
-                        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
-                    }
-                })
-                .addOnFailureListener(EcoTagActivity.this, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        int statusCode = ((ApiException) e).getStatusCode();
-                        switch(statusCode){
-                            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                                try {
-                                    ResolvableApiException rae = (ResolvableApiException) e;
-                                    rae.startResolutionForResult(EcoTagActivity.this, GPS_UTIL_LOCATION_RESOLUTION_REQUEST_CODE);
-                                } catch (IntentSender.SendIntentException sie) {
-                                    Log.w("TAG", "unable to start resolution for result due to " + sie.getLocalizedMessage());
-                                }
-                                break;
-                            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                                String errorMessage = "location settings are inadequate, and cannot be fixed here. Fix in Settings.";
-                                Log.e("TAG", errorMessage);
-                        }
-                    }
-                });
-    }
+            if(location !=null){
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+                setCurrentAddress();
 
-    private LocationCallback locationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult){
-            super.onLocationResult(locationResult);
-            longitude = locationResult.getLastLocation().getLongitude();
-            latitude = locationResult.getLastLocation().getLatitude();
-            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+                System.out.println(latitude);
+                System.out.println(longitude);
+                System.out.println(address);
+            }
+
+
+        }catch(SecurityException e){
+            e.printStackTrace();
         }
-    };
-
-    public double setCurrentLatitude(){
-        System.out.println(latitude);
-        return latitude;
     }
 
-    public double setCurrentLongitude(){
-        System.out.println(longitude);
-        return longitude;
+    private void setCurrentAddress(){
+        Geocoder geocoder = new Geocoder(this);
+        try{
+            addressList = geocoder.getFromLocation(latitude, longitude, 10);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
+        if(addressList!=null){
+            if(addressList.size() == 0){
+                Log.d("주소오류", "GetUserLocation: 주소 찾기 오류");
+            } else{
+                address = addressList.get(0).getAddressLine(0);
+            }
+        }
     }
-
-
 }
