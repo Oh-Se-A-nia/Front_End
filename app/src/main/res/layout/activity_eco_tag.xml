@@ -56,12 +56,14 @@
         android:textColor="@color/black"
         style="@style/UnderLIne"/>
 
-    <EditText
+    <TextView
+        android:id="@+id/addressText"
         android:layout_width="350dp"
         android:layout_height="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginStart="30dp"
-        android:hint="위치 정보를 입력해주세요"
+        android:text=""
+        android:hint="무단투기 쓰레기 발견 장소"
         style="@style/UnderLIne"/>
 
     <Switch
@@ -87,12 +89,19 @@
         android:textColor="@color/black"
         style="@style/UnderLIne"/>
 
+    <Spinner
+        android:id="@+id/trashSpinner"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"/>
+
 
     <Button
         android:layout_width="350dp"
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/photo_upload_button"
         android:text="에코택 등록하기"
         android:textStyle="bold"/>

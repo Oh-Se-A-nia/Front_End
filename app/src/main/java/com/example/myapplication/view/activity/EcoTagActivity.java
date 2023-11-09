@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -26,7 +28,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.databinding.ActivityCircleMenuBinding;
 import com.example.myapplication.databinding.ActivityEcoTagBinding;
+import com.example.myapplication.model.classification.TrashData;
 import com.example.myapplication.view.Constants;
+import com.example.myapplication.view.adapter.TrashAdapter;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -65,6 +69,12 @@ public class EcoTagActivity extends AppCompatActivity {
     private List<Address> addressList = null;
     private String address;
 
+    private TrashData trashData;
+
+    public EcoTagActivity(){
+        trashData = new TrashData();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +83,7 @@ public class EcoTagActivity extends AppCompatActivity {
 
         checkRegisterType();
         getOtherImage();
+        setTrashSpinner();
     }
 
     private void getOtherImage(){
@@ -138,6 +149,7 @@ public class EcoTagActivity extends AppCompatActivity {
                         Bitmap bitmap = (Bitmap) extras.get("data");
                         binding.imageView.setImageBitmap(bitmap);
                         getCurrentLocation();
+                        setAddressText();
                     }
                 }
             }
@@ -159,7 +171,6 @@ public class EcoTagActivity extends AppCompatActivity {
                 System.out.println(address);
             }
 
-
         }catch(SecurityException e){
             e.printStackTrace();
         }
@@ -180,5 +191,16 @@ public class EcoTagActivity extends AppCompatActivity {
                 address = addressList.get(0).getAddressLine(0);
             }
         }
+    }
+
+    private void setAddressText(){
+        TextView addressText = binding.addressText;
+        addressText.setText(address);
+    }
+
+    private void setTrashSpinner(){
+        Spinner spinnerTrash = binding.trashSpinner;
+        TrashAdapter trashAdapter = new TrashAdapter(EcoTagActivity.this, trashData.getTrashList());
+        spinnerTrash.setAdapter(trashAdapter);
     }
 }
