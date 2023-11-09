@@ -42,7 +42,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:background="@drawable/photo_upload_button"
-        android:text="다른 이미지 가져오기"
+        android:text="사진 재촬영하기"
         android:textStyle="bold"/>
 
     <TextView
